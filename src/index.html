@@ -16,15 +16,23 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="toolbar">
-                <button class="btn">Add Note</button>
-                <button class="btn">Delete Note</button>
+        <div class="toolbar">
+            <div class="row">
+                <button id="add_note" class="btn">Add Note</button>
+                <button id="delete_note" class="btn">Delete Note</button>
             </div>
         </div>
         <div class="row no-gutters">
-            <div class="col-5"></div>
-            <textarea class="col-7"></textarea>
+            <div class="col-4">
+                <div class="sidebar">
+                    <ul class="sidebar__notes"></ul>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="note_content">
+                    <textarea id="note" class="note"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </body>

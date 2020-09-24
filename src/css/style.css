@@ -5,24 +5,24 @@ h2 {
 
 .toolbar {
     background-color: #3D3F40;
-    padding: 10px;
+    padding: 20px;
 }
 
 .toolbar .btn {
     color: white;
-    background-color: #6A6D6F;
-    margin-left: 10px;
+    background-color: #7B7D6F;
+    margin-left: 20px;
     height: 40px;
 }
 
 .sidebar {
-    background-color: #1E1E20;
-    height: calc(100vh - 2 * 10px - 40px);
+    background-color: #2E2E20;
+    height: calc(100vh - 2 * 20px - 40px);
     overflow-y: scroll;
 }
 
 .note_content {
-    height: calc(100vh - 2 * 10px - 40px);
+    height: calc(100vh - 2 * 20px - 40px);
 }
 
 .note {
@@ -54,7 +54,7 @@ h2 {
 }
 
 .sidebar__notes li.active {
-    background-color: #CA951E;
+    background-color: #9A841E;
 }
 
 .sidebar__notes time {
@@ -64,38 +64,4 @@ h2 {
 
 .sidebar__note {
     padding: 5px;
-}
-
-.animate_delete {
-    animation: remove-note-animation 1s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
-    transform-origin: 0% 100%;
-}
-
-.animate_add {
-    opacity: 0;
-    animation: new-note-animation .3s linear forwards;
-}
-
-@keyframes new-note-animation {
-    from {
-        opacity: 0;
-        transform: translateY(-400px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes remove-note-animation {
-    0% {
-        opacity: 1;
-        transform: rotateZ(0);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(600px) rotateZ(90deg);
-    }
 }
