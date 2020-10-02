@@ -9,16 +9,18 @@ let delete_note = document.getElementById('delete_note')
 //buttons event listeners and textarea
 add_note.addEventListener('click',(ev)=>{
     let note = storage.add_note()
-    pushToURL('','id',note._urlID)
+    pushToURL('/OKRlab2deploy','id',note._urlID)
     update_page()
 })
 delete_note.addEventListener('click', (ev)=>{
-    if(storage._selected!==0)
-    storage.delete_note(storage._selected)
-    textarea.value =''
-    textarea.disabled=true
-    pushToURL('','','')
-    update_page()
+    if(storage._selected!==0) {
+        storage.delete_note(storage._selected)
+        textarea.value = ''
+        textarea.disabled = true
+        pushToURL('/OKRlab2deploy', '', '')
+        update_page()
+        console.log('s')
+    }
 })
 textarea.addEventListener('input',(ev)=>{
     storage.edit_note(storage._selected,textarea.value)
@@ -39,7 +41,8 @@ window.addEventListener('click', event => {
                 storage._notes[i].setSelected(true)
                 storage._selected = storage._notes[i].getDate()
                 textarea.disabled= false
-                pushToURL('','id',storage._notes[i].get_urlID())
+                pushToURL('/OKRlab2deploy','id',storage._notes[i].get_urlID())
+
             }else{
                 storage._notes[i].setSelected(false)
             }
@@ -142,10 +145,10 @@ function formattedDate(date) {
 }
 
 function pushToURL(name, key, value){
-    if(value===''){
-        window.history.replaceState(null, null, '/')
+    if(value==''){
+        window.history.replaceState(null, null, `${name}`)
     }else
-    window.history.replaceState(null, null, `${name}?${key}=${value}`)
+    window.history.replaceState(null, null, `${name}/?${key}=${value}`)
 }
 
 function parseQuery(query){
