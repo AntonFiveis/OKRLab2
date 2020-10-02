@@ -8,6 +8,14 @@ let add_note= document.getElementById('add_note')
 let delete_note = document.getElementById('delete_note')
 add_note.addEventListener('click',(ev)=>{
     storage.add_note()
+    textarea.value=''
+    update_page()
+})
+delete_note.addEventListener('click', (ev)=>{
+    if(storage._selected!=0)
+    storage.delete_note(storage._selected)
+    textarea.value =''
+    textarea.disabled=true
     update_page()
 })
 textarea.addEventListener('input',(ev)=>{
@@ -37,14 +45,20 @@ window.addEventListener('click', event => {
     }
 })
 
-
+window.addEventListener('unload',(ev )=>{
+    localStorage.setItem('notes',JSON.stringify(storage._notes))
+})
 window.addEventListener('load', () => {
     if (localStorage.getItem('notes') === null) {
         localStorage.setItem('notes', JSON.stringify([]));
+        storage = new NotesStorage()
     } else {
         let notes = JSON.parse(localStorage.getItem('notes'));
         notes.forEach((note) => {
             note.__proto__ = Note.prototype;
+            note._createdDate= new Date(note._createdDate)
+            note._editedDate= new Date(note._editedDate)
+            note._selected=false
         });
         storage = new NotesStorage(notes)
     }
