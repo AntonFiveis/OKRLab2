@@ -36,4 +36,7 @@ export default class Note{
     getEditionDate(){
         return this._editedDate
     }
+    getTitle(){
+        return this._title
+    }
 }
