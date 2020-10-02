@@ -5,6 +5,10 @@ export default class Note{
         this._selected = true;
         this._createdDate = new Date();
         this._editedDate = new Date();
+        this._urlID = +this._createdDate
+    }
+    get_urlID(){
+        return this._urlID
     }
     findTitleFromText(text){
         let title = text.slice(0,20).replace('\n','');

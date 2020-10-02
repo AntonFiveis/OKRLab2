@@ -11,6 +11,7 @@ export default class NotesStorage{
         this._notes.forEach(n=>n.setSelected(false))
         this._notes.push(note)
         this._selected = note.getDate()
+        return note
     }
     delete_note(noteDate){
         for(let i=0;i<this._notes.length;i++){

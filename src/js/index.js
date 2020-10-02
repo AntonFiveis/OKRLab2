@@ -6,16 +6,18 @@ let notes_list = document.getElementById('notes_list')
 let textarea= document.getElementById('note')
 let add_note= document.getElementById('add_note')
 let delete_note = document.getElementById('delete_note')
+//buttons event listeners and textarea
 add_note.addEventListener('click',(ev)=>{
-    storage.add_note()
-    textarea.value=''
+    let note = storage.add_note()
+    pushToURL('','id',note._urlID)
     update_page()
 })
 delete_note.addEventListener('click', (ev)=>{
-    if(storage._selected!=0)
+    if(storage._selected!==0)
     storage.delete_note(storage._selected)
     textarea.value =''
     textarea.disabled=true
+    pushToURL('','','')
     update_page()
 })
 textarea.addEventListener('input',(ev)=>{
@@ -23,6 +25,7 @@ textarea.addEventListener('input',(ev)=>{
     storage.makeFirst(storage._selected)
     update_page()
 })
+//window event listeners
 window.addEventListener('click', event => {
     if (
         event.target.classList.contains('sidebar__note') ||
@@ -36,7 +39,7 @@ window.addEventListener('click', event => {
                 storage._notes[i].setSelected(true)
                 storage._selected = storage._notes[i].getDate()
                 textarea.disabled= false
-                textarea.value= storage._notes[i].getText()
+                pushToURL('','id',storage._notes[i].get_urlID())
             }else{
                 storage._notes[i].setSelected(false)
             }
@@ -48,6 +51,7 @@ window.addEventListener('click', event => {
 window.addEventListener('unload',(ev )=>{
     localStorage.setItem('notes',JSON.stringify(storage._notes))
 })
+
 window.addEventListener('load', () => {
     if (localStorage.getItem('notes') === null) {
         localStorage.setItem('notes', JSON.stringify([]));
@@ -64,6 +68,17 @@ window.addEventListener('load', () => {
     }
 
     textarea.disabled = true;
+    const { search } = window.location
+    const query = parseQuery(search)
+    for(let i=0;i<storage._notes.length;i++){
+        if(query.id==storage._notes[i].get_urlID()){
+            storage._selected = storage._notes[i].getDate()
+            storage._notes[i].setSelected(true)
+            textarea.disabled= false
+            break;
+        }
+
+    }
     update_page()
 });
 
@@ -73,6 +88,8 @@ function  update_page() {
     storage._notes.forEach(note=>{
         const li = createNoteLI(note)
         notes_list.insertBefore(li, notes_list.firstChild);
+        if(note.getSelected()===true)
+            textarea.value = note.getText()
     })
 }
 
@@ -122,4 +139,21 @@ function formattedDate(date) {
     seconds = seconds.length > 1 ? seconds : '0' + seconds
 
     return day + '.' + month + '.' + year + ' ' + hour + ':' + minutes + ':' + seconds
+}
+
+function pushToURL(name, key, value){
+    if(value===''){
+        window.history.replaceState(null, null, '/')
+    }else
+    window.history.replaceState(null, null, `${name}?${key}=${value}`)
+}
+
+function parseQuery(query){
+    const queryStrings = query.slice(1).split('&')
+    const queryItems = {}
+    queryStrings.forEach(item => {
+        const parts = item.split('=')
+        queryItems[parts[0]] = parts[1]
+    })
+    return queryItems
 }
